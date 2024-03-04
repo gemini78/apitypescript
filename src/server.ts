@@ -4,14 +4,22 @@ import { myRouter } from "./router";
 import Morgan from "morgan";
 import favicon from "serve-favicon"
 import bodyParser from "body-parser";
+import { Sequelize } from 'sequelize-typescript';
 
 const app: Application = express();
 const port = 3000;
 
-const logger = (req: Request, res: Response, next) => {
-    console.log(`URL: ${req.url}`)
-    next()
-}
+const sequelize = new Sequelize({
+    database: 'pokedex',
+    dialect: 'mariadb',
+    username: 'root',
+    password: '',
+    logging: false
+});
+
+sequelize.authenticate()
+    .then(_ => console.log("Connexion établie avec la BDD"))
+    .catch(error => console.log(`Impossible de se connecter avec la BDD ${error}`))
 
 app
     .use(favicon(__dirname + '/../favicon.ico'))
