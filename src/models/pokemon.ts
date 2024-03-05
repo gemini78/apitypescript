@@ -1,4 +1,4 @@
-import { Table, Column, Model, HasMany, DataType, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, CreatedAt } from 'sequelize-typescript';
 
 @Table({
     timestamps: true,
@@ -40,7 +40,16 @@ class Pokemon extends Model {
 
     @Column({
         type: DataType.STRING,
-        allowNull: false
+        allowNull: false,
+        get() {
+            if (this.getDataValue('types') && this.getDataValue('types').indexOf(',') > -1) {
+                return this.getDataValue('types').split(',')
+            }
+            return this.getDataValue('types')
+        },
+        set(types: []) {
+            this.setDataValue('types', types.join())
+        }
     })
     declare types: string;
 
