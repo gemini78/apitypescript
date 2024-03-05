@@ -1,6 +1,7 @@
 import { database } from "./database";
 import { getUniqueId } from "./helper";
 import { IPokemon } from "./lib/pokemon";
+import PokemonModel from "./models/pokemon";
 
 let collection: IPokemon[] = database.pokemons;
 
@@ -28,3 +29,16 @@ export const remove = (id: number) => {
     collection = collection.filter(pokemon => pokemon.id !== id);
     return pokemonDeleted;
 };
+
+export const fillBdd = () => {
+    collection.map(pokemon => {
+        PokemonModel.create({
+            "name": pokemon.name,
+            "cp": pokemon.cp,
+            "hp": pokemon.hp,
+            "picture": pokemon.picture,
+            "types": pokemon.types.join()
+        }).then(pokemon => console.log(pokemon.toJSON()))
+    })
+};
+

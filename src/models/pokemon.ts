@@ -9,7 +9,8 @@ import { Table, Column, Model, HasMany, DataType, CreatedAt, UpdatedAt } from 's
 class Pokemon extends Model {
     @Column({
         primaryKey: true,
-        type: DataType.INTEGER
+        type: DataType.INTEGER,
+        autoIncrement: true
     })
     declare id: number
 
@@ -41,7 +42,7 @@ class Pokemon extends Model {
         type: DataType.STRING,
         allowNull: false
     })
-    declare type: string;
+    declare types: string;
 
     @CreatedAt
     declare created: Date

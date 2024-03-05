@@ -6,6 +6,7 @@ import favicon from "serve-favicon"
 import bodyParser from "body-parser";
 import { Sequelize } from 'sequelize-typescript';
 import Pokemon from "./models/pokemon";
+import { fillBdd } from "./repository";
 
 const app: Application = express();
 const port = 3000;
@@ -28,6 +29,16 @@ sequelize.addModels([Pokemon]);
 sequelize.sync({ force: true })
     .then(_ => {
         console.log('La base de données pokedex est bien synchronisée');
+        /*  Pokemon.create({
+             "name": "Gemini",
+             "cp": 88,
+             "hp": 29,
+             "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/010.png",
+             "types": ["Insecte", "Poison"].join()
+         }).then(gemini => console.log(gemini.toJSON())) */
+
+        fillBdd()
+
     })
     .catch(error => console.log(`La base de données pokedex n'est pas synchronisée ${error}`))
 
