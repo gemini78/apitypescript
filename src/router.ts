@@ -68,9 +68,18 @@ myRouter.put('/:id', (req: Request, res: Response) => {
 
 myRouter.delete('/:id', (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
-    repo.remove(id).then(pokemonDeleted => {
-        const message = `Le pokemon ${pokemonDeleted.name} a bien été supprimé`;
-        res.json({ message, data: pokemonDeleted })
-    })
+    repo.remove(id)
+        .then(pokemonDeleted => {
+            if (pokemonDeleted === null) {
+                const message = "Le pokemon demandé n'existe pas. Réessayez avec un autre identifiant.";
+                return res.status(404).json({ message })
+            }
+            const message = `Le pokemon ${pokemonDeleted.name} a bien été supprimé`;
+            res.json({ message, data: pokemonDeleted })
+        })
+        .catch(error => {
+            const message = "Le pokemon n'a pas pu être supprimé. Réessayez dans quelques instants.";
+            res.status(500).json({ message })
+        })
 })
 
