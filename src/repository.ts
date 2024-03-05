@@ -1,5 +1,4 @@
 import { database } from "./db/database";
-import { getUniqueId } from "./helper";
 import { IPokemon } from "./lib/pokemon";
 import PokemonModel from "./models/pokemon";
 
