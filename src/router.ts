@@ -50,7 +50,7 @@ myRouter.put('/:id', (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     repo.modify(id, req.body)
         .then(_ => {
-            repo.getById(id)
+            return repo.getById(id)
                 .then((pokemonUpdated) => {
                     if (pokemonUpdated === null) {
                         const message = "Le pokemon demandé n'existe pas. Réessayez avec un autre identifiant.";
@@ -58,10 +58,6 @@ myRouter.put('/:id', (req: Request, res: Response) => {
                     }
                     const message = `Le pokemon ${pokemonUpdated.name} a bien été modifié`;
                     res.json({ message, data: pokemonUpdated })
-                })
-                .catch(error => {
-                    const message = "Le pokemon n'a pas pu être modifié. Réessayez dans quelques instants.";
-                    res.status(500).json({ message, data: error })
                 })
         })
         .catch(error => {
